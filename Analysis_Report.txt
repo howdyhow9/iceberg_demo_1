@@ -1,0 +1,16 @@
+Challenges & Resolutions:
+• Tried to setup Spark Thrift Server but faced issues, so for time being used Spark sql in console which gives the same result
+• Getting a good partition column. Not many options so I choose passenger_count
+
+Performance Observations:
+• Trino processes queries entirely in memory with a pipelined execution model that allows data to flow continuously through operators like scans, joins, and aggregations without intermediate shuffles or writing to disk.
+• In contrast, Spark SQL is built on top of Apache Spark, a general-purpose engine, and relies on a stage-based execution model where intermediate results are often written to disk for fault tolerance, which can slow down query performance.
+• Location query (Q2): Trino 4.27s vs Spark 15s
+• Passenger stats query (Q3): Similar performance (Trino 2.19s vs Spark 2s) due to partitioning
+• Partitioned data access shows comparable performance across engines
+• Trino's query planning and execution engine proves more efficient for distributed processing
+
+Optimization Suggestions:
+• Consider dynamic partition pruning for large datasets
+• Monitor and adjust file size distribution
+• Comparing local vs cloud cluster environment. It is obvious that running in a cluster will enable parallel processing distributed across a cluster and it should be much better in performance.
